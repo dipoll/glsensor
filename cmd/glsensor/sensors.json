@@ -1,0 +1,30 @@
+{	
+
+	"name" : "DeviceName",
+	"location" : "DeviceLocation",
+	"region" : "DeviceRegion",
+	"sensors" : [
+		{
+			"type" : "DS18B20",
+			"name" : "DS18B20-01",
+			"id" : "0216249a9eee"
+		},
+		{
+			"type" : "DS18B20",
+			"name" : "DS18B20-02",
+			"id" : "01159047f8ff"
+		},		
+		{
+			"type" : "DHT11",
+			"name" : "KY-015-01",
+			"pin" : 17
+		}
+	],
+	"destinations" : [
+		{
+			"type" : "console",
+			"name" : "Basic Console"
+		
+		}
+	]	
+}
