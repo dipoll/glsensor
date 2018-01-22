@@ -54,7 +54,7 @@ const noSensor string = `{
 }	`
 
 var cfg DeviceConf
-var server MServer
+var server Server
 
 func TestDeviceStructureReading(t *testing.T) {
 	cfg, _ = ReadConfiguration(strings.NewReader(testConf))

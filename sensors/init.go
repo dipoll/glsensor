@@ -5,24 +5,19 @@ import (
 	"time"
 )
 
-/*
-Measurer interface represents a simple
-sensor that gets metrics */
+// Measurer interface represents a simple
+// sensor that gets metrics
 type Measurer interface {
 	Measure() ([]Measurement, error)
 }
 
-/*
-Metric represnts metric information
-*/
+// Metric represnts metric information
 type Metric struct {
 	Name string
 	Unit string
 }
 
-/*
-Measurement is actual data from the sensor
-*/
+// Measurement is actual data from the sensor
 type Measurement struct {
 	T    time.Time
 	Info *Metric
@@ -31,16 +26,12 @@ type Measurement struct {
 
 var sensorRegister map[string]func() Measurer = make(map[string]func() Measurer)
 
-/*
-Register registers initializer function for particular sensor
-*/
+// Register registers initializer function for particular sensor
 func Register(typeName string, f func() Measurer) {
 	sensorRegister[typeName] = f
 }
 
-/*
-GetSensorByName returns the initialization function of particular type
-*/
+// GetSensorByName returns the initialization function of particular type
 func GetSensorByName(name string) (Measurer, error) {
 	fun, ok := sensorRegister[name]
 	if !ok {

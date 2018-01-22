@@ -24,7 +24,7 @@ func main() {
 	if err != nil {
 		log.Fatal("Could not read configuration: ", err)
 	}
-	s := glsensor.NewMServer([]*glsensor.DeviceConf{&conf})
+	s := glsensor.NewServer([]*glsensor.DeviceConf{&conf})
 	fc := make(chan int)
 	go func(c chan int) {
 		s.Start()

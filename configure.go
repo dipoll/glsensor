@@ -8,25 +8,19 @@ import (
 	"github.com/dipoll/glsensor/sensors"
 )
 
-/*
-SensorConf structure is configuration object to be read from json
-*/
+// SensorConf structure is configuration object to be read from json
 type SensorConf struct {
 	Sensor sensors.Measurer
 }
 
-/*
-DestinationConf represents configuration data handler
-for destinations
-*/
+// DestinationConf represents configuration data handler
+// for destinations
 type DestinationConf struct {
 	Destination destinations.Sender
 }
 
-/*
-UnmarshalJSON does reading of json structure by
-applying particular type of the sensor's handler
-*/
+// UnmarshalJSON does reading of json structure by
+// applying particular type of the sensor's handler
 func (s *SensorConf) UnmarshalJSON(data []byte) error {
 	type Sens struct {
 		Type string `json:"Type,omitempty"`
@@ -49,10 +43,8 @@ func (s *SensorConf) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-/*
-UnmarshalJSON does reading of json structure by
-applying particular type of the sensor's handler
-*/
+// UnmarshalJSON does reading of json structure by
+// applying particular type of the sensor's handler
 func (d *DestinationConf) UnmarshalJSON(data []byte) error {
 	type SenderInstance struct {
 		Type string `json:"Type,omitempty"`
@@ -76,10 +68,8 @@ func (d *DestinationConf) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-/*
-DeviceConf structure is configuration object to be read from json
-Is a placehoslder for full configuration
-*/
+// DeviceConf structure is configuration object to be read from json
+// Is a placehoslder for full configuration
 type DeviceConf struct {
 	Name         string
 	Location     string
@@ -88,10 +78,8 @@ type DeviceConf struct {
 	Destinations []DestinationConf
 }
 
-/*
-ReadConfiguration reads full configuration from json string
-and returns initialized SensorConf
-*/
+// ReadConfiguration reads full configuration from json string
+// and returns initialized SensorConf
 func ReadConfiguration(r io.Reader) (DeviceConf, error) {
 	var dc DeviceConf
 	dec := json.NewDecoder(r)

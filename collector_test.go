@@ -33,7 +33,7 @@ func TestCollectorRun(t *testing.T) {
 	if err != nil {
 		t.Fatal("Configuration can't be read!", conf)
 	}
-	s := NewMServer([]*DeviceConf{&conf})
+	s := NewServer([]*DeviceConf{&conf})
 	err = s.CollectAll()
 	if err != nil {
 		t.Fatal("Fails to collect all metrics", err)
@@ -47,13 +47,13 @@ func TestNewMServer(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want *MServer
+		want *Server
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewMServer(tt.args.conf); !reflect.DeepEqual(got, tt.want) {
+			if got := NewServer(tt.args.conf); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("NewMServer() = %v, want %v", got, tt.want)
 			}
 		})
@@ -63,7 +63,7 @@ func TestNewMServer(t *testing.T) {
 func TestMServer_forwardSender(t *testing.T) {
 	tests := []struct {
 		name string
-		m    *MServer
+		m    *Server
 	}{
 		// TODO: Add test cases.
 	}
@@ -77,7 +77,7 @@ func TestMServer_forwardSender(t *testing.T) {
 func TestMServer_Shutdown(t *testing.T) {
 	tests := []struct {
 		name string
-		m    *MServer
+		m    *Server
 	}{
 		// TODO: Add test cases.
 	}
@@ -91,7 +91,7 @@ func TestMServer_Shutdown(t *testing.T) {
 func TestMServer_CollectAll(t *testing.T) {
 	tests := []struct {
 		name    string
-		m       *MServer
+		m       *Server
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -111,7 +111,7 @@ func TestMServer_collectFromDevice(t *testing.T) {
 	}
 	tests := []struct {
 		name    string
-		m       *MServer
+		m       *Server
 		args    args
 		wantErr bool
 	}{
@@ -134,7 +134,7 @@ func TestMServer_addRetreivedValue(t *testing.T) {
 	}
 	tests := []struct {
 		name string
-		m    *MServer
+		m    *Server
 		args args
 	}{
 		// TODO: Add test cases.
