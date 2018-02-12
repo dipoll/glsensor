@@ -1,6 +1,7 @@
 package destinations
 
 import (
+	"fmt"
 	"io"
 	"os"
 )
@@ -13,8 +14,8 @@ type Console struct {
 
 // Send sends metrics to destination(s)
 func (c *Console) Send(m *MetricValue) error {
-	c.out.Write([]byte(m.M.Info.Name))
-	return nil
+	_, err := fmt.Fprintf(c.out, "%v", m.M)
+	return err
 }
 
 // NewConsole returns new stdout sender

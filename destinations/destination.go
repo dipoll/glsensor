@@ -2,11 +2,16 @@ package destinations
 
 import (
 	"errors"
+	"sync"
 
 	"github.com/dipoll/glsensor/sensors"
 )
 
-var senders map[string]func() Sender = make(map[string]func() Sender)
+//var senders map[string]func() Sender = make(map[string]func() Sender)
+var senders = make(map[string]func() Sender)
+
+//DestinationNotFound error for failed lookup
+var DestinationNotFound = errors.New("No desination sender found")
 
 type MetricValue struct {
 	M        *sensors.Measurement
@@ -20,11 +25,17 @@ type Sender interface {
 }
 
 type Router struct {
-	destinations []Sender
+	destinations []Sender `json:"destinations"`
 }
 
 func (d *Router) Send(s *MetricValue) error {
+	var mut sync.RWMutex
+	if len(d.destinations) < 1 {
+		return errors.New("No destinations assigned!")
+	}
 	for _, d := range d.destinations {
+		mut.Lock()
+		defer mut.Unlock()
 		err := d.Send(s)
 		if err != nil {
 			return err
@@ -43,10 +54,12 @@ func Register(name string, f func() Sender) error {
 	return nil
 }
 
+//GetSenderbyName returns hadler from senders maps and error
+//if handler is not found DestinationNotFount is returned
 func GetSenderByName(name string) (Sender, error) {
 	fun, ok := senders[name]
 	if !ok {
-		return nil, errors.New("No desination sender found with name: " + name)
+		return nil, DestinationNotFound
 	}
 	return fun(), nil
 }

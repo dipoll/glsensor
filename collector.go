@@ -10,8 +10,9 @@ import (
 
 //Server Main service structure
 type Server struct {
-	configuration       []*DeviceConf
-	destinations        *destinations.Router
+	configuration []*DeviceConf
+	//destinations        destinations.Router
+	//destinations        []destinations.Sender
 	currentMeasurements []destinations.MetricValue
 	mtx                 sync.RWMutex
 	readyToSend         chan *destinations.MetricValue
@@ -38,7 +39,13 @@ func (m *Server) forwardToSender() bool {
 	for {
 		select {
 		case msg := <-m.readyToSend:
-			m.destinations.Send(msg)
+			log.Println("Sending some data", msg)
+			//m.destinations.Send(msg)
+			for _, d := range m.configuration {
+				for _, dest := range d.Destinations {
+					dest.Destination.Send(msg)
+				}
+			}
 		case shutDown := <-m.halt:
 			if shutDown {
 				log.Println("Got shutdown signal, stopping ...")
@@ -60,7 +67,9 @@ func (m *Server) Shutdown() {
 // into the memory and sends all notifications to the
 // destinations
 func (m *Server) CollectAll() error {
+	log.Println("Starting collecting all sensors")
 	for _, device := range m.configuration {
+		log.Println("Collecting from device ", device)
 		err := m.collectFromDevice(device)
 		if err != nil {
 			return err
@@ -83,7 +92,7 @@ func (m *Server) collectFromDevice(d *DeviceConf) error {
 				return
 			}
 			for _, meas := range measurements {
-				go m.addRetreivedValue(meas, d, false)
+				go m.addRetreivedValue(meas, d, true)
 			}
 
 			c <- 1
@@ -98,6 +107,7 @@ func (m *Server) collectFromDevice(d *DeviceConf) error {
 
 //Added retrieved value
 func (m *Server) addRetreivedValue(meas sensors.Measurement, d *DeviceConf, notify bool) {
+	log.Println("Adding value of ", d, meas)
 	m.mtx.Lock()
 	rval := destinations.MetricValue{M: &meas, Name: d.Name, Location: d.Location, Region: d.Region}
 	m.currentMeasurements = append(m.currentMeasurements, rval)

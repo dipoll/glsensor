@@ -49,7 +49,7 @@ func TestNewMServer(t *testing.T) {
 		args args
 		want *Server
 	}{
-		// TODO: Add test cases.
+	// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -65,7 +65,7 @@ func TestMServer_forwardSender(t *testing.T) {
 		name string
 		m    *Server
 	}{
-		// TODO: Add test cases.
+	// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -79,7 +79,7 @@ func TestMServer_Shutdown(t *testing.T) {
 		name string
 		m    *Server
 	}{
-		// TODO: Add test cases.
+	// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -94,7 +94,7 @@ func TestMServer_CollectAll(t *testing.T) {
 		m       *Server
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+	// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -115,7 +115,7 @@ func TestMServer_collectFromDevice(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+	// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -137,7 +137,7 @@ func TestMServer_addRetreivedValue(t *testing.T) {
 		m    *Server
 		args args
 	}{
-		// TODO: Add test cases.
+	// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

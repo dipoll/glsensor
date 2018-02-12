@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	infile = flag.String("conf", "", "Specify configuration file path")
+	infile = flag.String("conf", "sensors.json", "Specify configuration file path")
 )
 
 func main() {
@@ -32,6 +32,12 @@ func main() {
 	}(fc)
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, os.Interrupt, syscall.SIGTERM)
+	log.Println("Before collect")
+	err = s.CollectAll()
+	log.Println("After collect")
+	if err != nil {
+		log.Println(err)
+	}
 	for {
 		select {
 		case sig := <-sc:
